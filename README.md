@@ -1,6 +1,6 @@
 # overtone-playground
 
-Overtone Playground is a Clojure library which enables users to easily create & explore music in [Overtone](https://github.com/overtone/overtone)
+Overtone Playground is a library that opens the door for learning and exploring music with [Clojure](https://clojure.org/) and [Overtone](https://github.com/overtone/overtone)
 
 ## Usage
 
