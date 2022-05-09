@@ -8,13 +8,38 @@
 
 (def global_bpm (metronome 120))
 
-(defn play [x]
-  "Can play either single tone: (play 60), (play :C4) or Whole chords"
-  (if (seqable? x)
-    (doseq [note x] (sth/overpad note))
-    (if (keyword? x)
-      (sth/overpad (note x))
-      (sth/overpad x))))
+(defn play
+  "Can be used in following ways:
+
+  For playing single notes:
+  (play 60)
+  (play :C4)
+
+  For playing multiple notes/chords (accepts both collections and multiple-single arguments):
+  (play 57 60 64)
+  (play [57 60 64])
+  (play :c3 :a4 :f3) <-- arguments are case insensitive, btw.
+  (play [:C3 :A4 :F3]) <-- as you can see here.
+  (play (chord :a3 :minor))"
+
+  ([]
+   (play 60))
+  ([x]
+   (if (seqable? x)
+       (map play x)
+       (if (keyword? x)
+         (sth/overpad (note x))
+         (sth/overpad x))))
+  ([x & args]
+   (play (conj args x))))
+
+;; This is leftover from previous imperfect noodling around. Left it for now, will be deleted
+;; in the refactoring process.
+;; (if (seqable? x)
+;;   (doseq [note x] (sth/overpad note))
+;;   (if (keyword? x)
+;;     (sth/overpad (note x))
+;;     (sth/overpad x)))
 
 (defn melody [notes sleep]
   (if (empty? notes) nil
@@ -66,7 +91,8 @@
 
 (defn stop-loop
   "stops desired loop. Uses Job ID for loop reference. If called with no arguments stops all loops.
-  Example usage: (stop-loop 23) or (stop-loop)"
+  Example usage: (stop-loop 23), (stop-loop 23 26 30) or (stop-loop). To print a list of loops in
+  the REPL use (show-loops) function."
   ([]
    (map stop-loop (filter number? (flatten (map first (a/scheduled-jobs my-pool)))) ))
   ([num]
