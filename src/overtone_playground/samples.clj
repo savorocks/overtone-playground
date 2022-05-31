@@ -4,6 +4,10 @@
 
 ;; This is a collection of samples also used by sonic-pi.
 
+;; (require '[overtone.config.store :refer [config-get]])
+;; (config-get [])
+;; (swap! live-config assoc-in [:sc-args :max-buffers] 1024)
+
 
 ;; Ambient
 (defsample ambi_choir "resources/samples/ambi_choir.wav")
