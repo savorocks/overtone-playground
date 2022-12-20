@@ -100,13 +100,19 @@
       (a/at (+ ms init-time) #(play (first notes)) my-pool)
       (recur (a/at (+ ms init-time) #(play (first notes)) my-pool) (+ ms init-time) (rest notes) ms))))
 
-
+;; The following lines are experimentation with combining loops and seeing if they will keep the timing.
+;; Execute the (stop-loop) function when you want sounds to stop.
 (doseq []
   (looper #(melody (scale :c4 :minor) 250) (* (count (scale :c4 :minor)) 250))
   (looper #(s/bd_haus) 500)
   (looper #(s/bass_thick_c) 500))
 
 (doseq []
-  (looper #(play (rand-nth (scale :c4 :minor))) 250)
+  (looper #(play (rand-nth (scale :c4 :minor))) (/ 500 3))
   (looper #(s/bd_haus) 500)
   (looper #(s/bass_thick_c) 500))
+
+(stop-loop)
+
+(sth/overpad)
+(stop)
